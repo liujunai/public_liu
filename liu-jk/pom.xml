@@ -163,7 +163,7 @@
     </dependencies>
 
     <build>
-        <finalName>ssm-jx</finalName>
+        <finalName>liu-jx</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
