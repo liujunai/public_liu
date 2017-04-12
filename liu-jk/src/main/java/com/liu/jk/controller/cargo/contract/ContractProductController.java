@@ -52,4 +52,33 @@ public class ContractProductController extends BaseController {
 
         return "redirect:/cargo/contractproduct/tocreate.action";	//新增完转向新增页面-批量新增
     }
+    //转向修改页面
+    @RequestMapping("/cargo/contractproduct/toupdate.action")
+    public String toupdate(String id, Model model){
+        ContractProduct obj = contractProductService.get(id);
+        model.addAttribute("obj", obj);
+
+        //准备生产厂家的下拉列表
+        List<Factory> factoryList = factoryService.getFactoryList();
+        model.addAttribute("factoryList", factoryList);
+
+        return "/cargo/contract/jContractProductUpdate.jsp";
+    }
+
+    //修改保存
+    @RequestMapping("/cargo/contractproduct/update.action")
+    public String update(ContractProduct contractProduct){
+        contractProductService.update(contractProduct);
+
+        return "redirect:/cargo/contractproduct/tocreate.action";
+    }
+
+    //删除
+    @RequestMapping("/cargo/contractproduct/deleteById.action")
+    public String deleteById(String id, String contractId, Model model){
+        contractProductService.deleteById(id);
+        model.addAttribute("contractId", contractId);			//传递主表ID
+
+        return "redirect:/cargo/contractproduct/tocreate.action";
+    }
 }

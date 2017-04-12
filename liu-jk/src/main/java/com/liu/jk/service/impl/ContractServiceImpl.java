@@ -1,9 +1,12 @@
 package com.liu.jk.service.impl;
 
 import com.liu.jk.dao.ContractDao;
+import com.liu.jk.dao.ContractProductDao;
+import com.liu.jk.dao.ExtCproductDao;
 import com.liu.jk.model.Contract;
 import com.liu.jk.pagination.Page;
 import com.liu.jk.service.ContractService;
+import com.liu.jk.vo.ContractVO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,6 +23,10 @@ import java.util.UUID;
 public class ContractServiceImpl implements ContractService {
     @Resource
     ContractDao contractDao;
+    @Resource
+    ContractProductDao contractProductDao;
+    @Resource
+    ExtCproductDao extCproductDao;
 
     public List<Contract> findPage(Page page) {
         return contractDao.findPage(page);
@@ -33,6 +40,11 @@ public class ContractServiceImpl implements ContractService {
         return contractDao.get(id);
     }
 
+
+    public ContractVO view(String contractId) {
+        return contractDao.view(contractId);
+    }
+
     public void insert(Contract contract) {
         contract.setId(UUID.randomUUID().toString());
         contract.setState(0);					//0草稿1已上报
@@ -44,10 +56,15 @@ public class ContractServiceImpl implements ContractService {
     }
 
     public void deleteById(Serializable id) {
+        Serializable[] ids = {id};
+        extCproductDao.deleteByContractById(ids);      //删除当前合同下的附件
+        contractProductDao.deleteByContractById(ids);  //删除当前合同下的货物
         contractDao.deleteById(id);
     }
 
     public void delete(Serializable[] ids) {
+        extCproductDao.deleteByContractById(ids);      //删除当前合同下的附件
+        contractProductDao.deleteByContractById(ids);  //删除当前合同下的货物
         contractDao.delete(ids);
     }
 

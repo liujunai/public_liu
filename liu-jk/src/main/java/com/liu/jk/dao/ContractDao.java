@@ -1,6 +1,7 @@
 package com.liu.jk.dao;
 
 import com.liu.jk.model.Contract;
+import com.liu.jk.vo.ContractVO;
 
 import java.util.Map;
 
@@ -9,4 +10,6 @@ import java.util.Map;
  */
 public interface ContractDao extends BaseDao<Contract> {
     public void updateState(Map map);			//修改状态
+
+    public ContractVO view (String contractId);
 }

@@ -1,9 +1,11 @@
 package com.liu.jk.service.impl;
 
 import com.liu.jk.dao.ContractProductDao;
+import com.liu.jk.dao.ExtCproductDao;
 import com.liu.jk.model.ContractProduct;
 import com.liu.jk.pagination.Page;
 import com.liu.jk.service.ContractProductService;
+import com.liu.util.UtilFuns;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,6 +21,8 @@ import java.util.UUID;
 public class ContractProductServiceImpl implements ContractProductService {
     @Resource
     ContractProductDao contractProductDao;
+    @Resource
+    ExtCproductDao extCproductDao;
 
     public List<ContractProduct> findPage(Page page) {
         return contractProductDao.findPage(page);
@@ -35,7 +39,10 @@ public class ContractProductServiceImpl implements ContractProductService {
     public void insert(ContractProduct contractProduct) {
         contractProduct.setId(UUID.randomUUID().toString());
         //自动计算总金额=数量*单价		...修改，删除；同步合同总金额
-        contractProduct.setAmount(contractProduct.getCnumber()*contractProduct.getPrice());
+        if (UtilFuns.isNotEmpty(contractProduct.getCnumber()) && UtilFuns.isNotEmpty(contractProduct.getPrice())){
+            contractProduct.setAmount(contractProduct.getCnumber()*contractProduct.getPrice());
+        }
+
 
         contractProductDao.insert(contractProduct);
     }
@@ -45,10 +52,13 @@ public class ContractProductServiceImpl implements ContractProductService {
     }
 
     public void deleteById(Serializable id) {
+        Serializable[] ids = {id};
+        extCproductDao.deleteByContractProductById(ids);  //删除当前货物下的所有附件
         contractProductDao.deleteById(id);
     }
 
     public void delete(Serializable[] ids) {
+        extCproductDao.deleteByContractProductById(ids);  //删除当前货物下的所有附件
         contractProductDao.delete(ids);
     }
 
