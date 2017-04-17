@@ -1,16 +1,22 @@
 package com.liu.jk.service.impl;
 
+import com.liu.jk.dao.ContractDao;
 import com.liu.jk.dao.ExportDao;
+import com.liu.jk.dao.ExportProductDao;
 import com.liu.jk.model.Contract;
 import com.liu.jk.model.Export;
 import com.liu.jk.pagination.Page;
 import com.liu.jk.service.ExportService;
+import com.liu.jk.vo.ContractVO;
+import com.liu.util.UtilFuns;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by titanic on 17-4-14.
@@ -20,59 +26,89 @@ public class ExportServiceImpl implements ExportService {
 
     @Resource
     ExportDao exportDao;
+    @Resource
+    ExportProductDao exportProductDao;
+    @Resource
+    ContractDao contractDao;
 
-    @Override
+
     public List<Export> findPage(Page page) {
-        return null;
+        return exportDao.findPage(page);
     }
 
-    @Override
+
     public List<Export> find(Map paraMap) {
-        return null;
+        return exportDao.find(paraMap);
     }
 
-    @Override
+
     public Export get(Serializable id) {
-        return null;
+        return exportDao.get(id);
     }
 
-    @Override
-    public void insert(String[] contractIds) {
+
+    public void insert(String[]  contractIds) {
+        /*
+         * 1.根据合同id获得合同对象,获得合同号
+         * 2.
+         * 3.
+         */
+
+        //拼接合同号
+        String contractNos = "";
+        for (int i=0; i<contractIds.length; i++){
+            ContractVO contract = contractDao.view(contractIds[i]);
+            contractNos += contract.getContractNo() + "";
+        }
+        contractNos = UtilFuns.delLastChar(contractNos);
+
+        Export export = new Export();
+        export.setId(UUID.randomUUID().toString());
+
+        //合同的ID集合
+        export.setContractIds(UtilFuns.joinStr(contractIds,","));       //工具类,将数组拼接成以,分割
+        //合同号
+        export.setCustomerContract(contractNos);
+
+        exportDao.insert(export);
 
     }
 
-    @Override
-    public void update(Export export, String[] mr_id, Integer[] mr_orderNo, Integer[] mr_cnumber, Double[] mr_grossWeight, Double[] mr_netWeight, Double[] mr_sizeLength, Double[] mr_sizeWidth, Double[] mr_sizeHeight, Double[] mr_exPrice, Double[] mr_tax, Integer[] mr_changed) {
 
+    public void update(Export export) {
+        exportDao.update(export);
     }
 
-    @Override
+
+
     public void deleteById(Serializable id) {
-
+        exportDao.deleteById(id);
     }
 
-    @Override
+
     public void delete(Serializable[] ids) {
-
+        exportDao.delete(ids);
     }
 
-    @Override
+
     public void submit(Serializable[] ids) {
-
+        Map map = new HashMap();
+        map.put("state",1);
+        map.put("ids",ids);
+        exportDao.updateState(map);
     }
 
-    @Override
+
     public void cancel(Serializable[] ids) {
-
+        Map map = new HashMap();
+        map.put("state",0);
+        map.put("ids",ids);
+        exportDao.updateState(map);
     }
 
-    @Override
     public List<Contract> getContractList() {
-        return null;
-    }
-
-    @Override
-    public String getMrecordData(String exportId) {
-        return null;
+        Map map = new HashMap();
+        map.put("state",1);             //1已上报
+        return contractDao.find(map);
     }
 }
