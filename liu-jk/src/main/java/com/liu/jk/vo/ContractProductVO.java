@@ -1,7 +1,6 @@
 package com.liu.jk.vo;
 
 import com.liu.jk.model.Contract;
-import com.liu.jk.model.ExtCproduct;
 import com.liu.jk.model.Factory;
 
 import java.util.List;
@@ -13,7 +12,7 @@ public class ContractProductVO {
     private String id;
 
     private Contract contract;		            //和合同陪多对一关系
-    private List<ExtCproduct> extCproducts;		//和附件一对多
+    private List<ExtCproductVO> extCproducts;	//和附件一对多
     private Factory factory;		            //和生产厂家多对一
 
     private String productNo;
@@ -46,11 +45,11 @@ public class ContractProductVO {
         this.contract = contract;
     }
 
-    public List<ExtCproduct> getExtCproducts() {
+    public List<ExtCproductVO> getExtCproducts() {
         return extCproducts;
     }
 
-    public void setExtCproducts(List<ExtCproduct> extCproducts) {
+    public void setExtCproducts(List<ExtCproductVO> extCproducts) {
         this.extCproducts = extCproducts;
     }
 
