@@ -33,13 +33,13 @@
 
     <select id="find" parameterType="map" resultMap="exportRM">
         select
-        (select count(*) from export_product_c
-        where export_id=e.export_id)  as epnum,
-        (select count(*) from ext_eproduct_c
-        where export_product_id in (select export_product_id from export_product_c where export_id=e.export_id)
-        ) as extnum,
+          (select count(*) from export_product_c
+          where export_id=e.export_id)  as epnum,
+          (select count(*) from ext_eproduct_c
+          where export_product_id in (select export_product_id from export_product_c where export_id=e.export_id)
+          ) as extnum,
 
-        e.export_id,e.input_date,e.contract_ids,e.customer_contract,e.lcno,e.consignee,e.marks,e.remark,e.shipment_port,e.destination_port,e.transport_mode,e.price_condition,e.gross_weight,e.net_weight,e.measurement,e.state
+          e.export_id,e.input_date,e.contract_ids,e.customer_contract,e.lcno,e.consignee,e.marks,e.remark,e.shipment_port,e.destination_port,e.transport_mode,e.price_condition,e.gross_weight,e.net_weight,e.state
         from export_c e
 
     </select>

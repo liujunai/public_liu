@@ -1,7 +1,5 @@
 package com.liu.jk.vo;
 
-import com.liu.jk.model.ContractProduct;
-
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +10,7 @@ public class ContractVO {
 
     private String id;
 
-    private List<ContractProduct> contractProducts;		//和货物一对多
+    private List<ContractProductVO> contractProducts;		//和货物一对多
 
     private String cpnum;
     private String extnum;
@@ -48,11 +46,11 @@ public class ContractVO {
         this.id = id;
     }
 
-    public List<ContractProduct> getContractProducts() {
+    public List<ContractProductVO> getContractProducts() {
         return contractProducts;
     }
 
-    public void setContractProducts(List<ContractProduct> contractProducts) {
+    public void setContractProducts(List<ContractProductVO> contractProducts) {
         this.contractProducts = contractProducts;
     }
 
