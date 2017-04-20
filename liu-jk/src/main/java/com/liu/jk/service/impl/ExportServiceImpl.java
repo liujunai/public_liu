@@ -66,7 +66,7 @@ public class ExportServiceImpl implements ExportService {
         String contractNos = "";
         for (int i=0; i<contractIds.length; i++){
             ContractVO contract = contractDao.view(contractIds[i]);
-            contractNos += contract.getContractNo() + "";
+            contractNos += contract.getContractNo() + " ";
         }
         contractNos = UtilFuns.delLastChar(contractNos);
 
