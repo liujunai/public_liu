@@ -16,6 +16,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 
+<link rel="stylesheet" href="${path}/css/style.css">
+
+
+
 <%-- bootstrap的资源文件 --%>
 <link rel="stylesheet" href="${path}/bootstrap/css/bootstrap.min.css">
 <script type="text/javascript" src="${path}/bootstrap/js/jquery.min.js"></script>

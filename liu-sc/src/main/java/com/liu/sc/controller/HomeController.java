@@ -9,9 +9,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
 
-    @RequestMapping("/home.action")
-    public String login(){
+    //主页
+    @RequestMapping("/homepage.action")
+    public String homepage(){
         return "/homepage.jsp";
+    }
+
+    //注册页面
+    @RequestMapping("regist.action")
+    public String regist(){
+        return "/user/regist.jsp";
     }
 
 }

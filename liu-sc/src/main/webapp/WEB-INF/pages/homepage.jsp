@@ -13,14 +13,24 @@
 </head>
 <body>
 
-<div class="container" style="padding: 50px;background-color: #ffffff">
-    <h2 class="page-header">hello</h2>
-    <div class="text-center">
-        <h3>HELLO 主页</h3>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="/homepage.action" class="navbar-brand"><label>主页logo</label></a>
+        </div>
+        <div class="navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="/homepage.action"><span class="glyphicon glyphicon-home"></span>首页</a></li>
+                <li><a href="/regist.action">注册页面</a></li>
+                <li><a href=""></a></li>
+                <li><a href=""></a></li>
+                <li><a href=""></a></li>
+            </ul>
+        </div>
+
     </div>
 
-</div>
-
+</nav>
 
 </body>
 </html>
