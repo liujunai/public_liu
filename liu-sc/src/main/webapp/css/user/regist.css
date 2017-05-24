@@ -6,3 +6,17 @@ body {
     padding: 100px;
     background-color: #ffffff;
 }
+
+.errorClass {
+    color: #f40000;font-size: 10px;border:1px solid #ffb8b8; padding: 8px 8px 8px 35px;
+    background: url("/images/error.png") no-repeat;background-color: #fef2f2;
+}
+
+#imgverfiyCode {
+    width: 100px;
+    border: 1px solid #e2e2e2;
+}
+
+.text-center label {
+    padding: 15px 0 20px 0;
+}
