@@ -10,7 +10,8 @@
 <html>
 <head>
     <title>注册页面</title>
-
+    <link rel="stylesheet" href="${path}/css/user/regist.css">
+    <script type="text/javascript" src="${path}/js/user/regist.js"></script>
 </head>
 <body style="background-color: #cccccc">
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -34,33 +35,33 @@
     <h3 class="page-header">新用户注册</h3>
     <form class="">
         <div class="form-group">
-            <label for="username">用户名：</label>
-            <input type="text" class="form-control" id="username" placeholder="请输入您的用户名">
-            <label></label>
+            <label for="loginname">用户名：</label>
+            <input type="text" class="form-control" id="loginname" placeholder="请输入您的用户名">
+            <label class="errorClass" id="loginnameError"></label>
         </div>
         <div class="form-group">
             <label for="loginpass">登录密码：</label>
             <input type="password" class="form-control" id="loginpass" placeholder="请输入您的密码">
-            <label></label>
+            <label class="errorClass" id="loginpassError"></label>
         </div>
         <div class="form-group">
             <label for="reloginpass">确认密码：</label>
-            <input type="text" class="form-control" id="reloginpass" placeholder="请输入确认密码">
-            <label></label>
+            <input type="password" class="form-control" id="reloginpass" placeholder="请输入确认密码">
+            <label class="errorClass" id="reloginpassError"></label>
         </div>
         <div class="form-group">
-            <label for="email">邮&nbsp;&nbsp;箱：</label>
+            <label for="email">邮&nbsp;&nbsp;&nbsp;箱：</label>
             <input type="text" class="form-control" id="email" placeholder="请输入您的Email">
-            <label></label>
+            <label class="errorClass" id="emailError"></label>
         </div>
         <div class="form-group">
             <label for="verifyCode">验证码：</label>
             <input type="text" class="form-control" id="verifyCode" placeholder="请输入验证码">
-            <label></label>
+            <label class="errorClass" id="verifyCodeError"></label>
         </div>
-        <div class="form-group">
-            <img src="" alt="">
-            <label><a href="#">换一张</a></label>
+        <div class="form-group text-center">
+            <img id="imgverfiyCode" class="img-responsive center-block" src="/verfiyCode.action" alt="验证码">
+            <label ><a href="javascript:_hyz()" >换一张</a></label>
         </div>
 
         <button type="button" class="btn btn-primary center-block">立即注册</button>
