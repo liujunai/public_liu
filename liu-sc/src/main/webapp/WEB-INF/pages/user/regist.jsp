@@ -33,7 +33,7 @@
 
 <div id="registered" class="container" style="background-color: #ffffff;padding: 100px">
     <h3 class="page-header">新用户注册</h3>
-    <form class="">
+    <form id="registFrom" action="/user/registered.action" method="post">
         <div class="form-group">
             <label for="loginname">用户名：</label>
             <input type="text" class="form-control" id="loginname" placeholder="请输入您的用户名">
@@ -64,7 +64,7 @@
             <label ><a href="javascript:_hyz()" >换一张</a></label>
         </div>
 
-        <button type="button" class="btn btn-primary center-block">立即注册</button>
+        <input type="submit" class="btn btn-primary center-block" value="立即注册">
     </form>
 </div>
 

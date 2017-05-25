@@ -13,6 +13,42 @@ public class User {
 
     private String activationcode;
 
+    private String reloginpass;
+
+    private String verifyCode;
+
+    private String newloginpass;
+
+    public String getReloginpass()
+    {
+        return reloginpass;
+    }
+
+    public void setReloginpass(String reloginpass)
+    {
+        this.reloginpass = reloginpass;
+    }
+
+    public String getVerifyCode()
+    {
+        return verifyCode;
+    }
+
+    public void setVerifyCode(String verifyCode)
+    {
+        this.verifyCode = verifyCode;
+    }
+
+    public String getNewloginpass()
+    {
+        return newloginpass;
+    }
+
+    public void setNewloginpass(String newloginpass)
+    {
+        this.newloginpass = newloginpass;
+    }
+
     public String getUid()
     {
         return uid;

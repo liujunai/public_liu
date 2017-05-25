@@ -3,72 +3,84 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.liu.sc.mapper.UserMapper" >
-  <resultMap id="BaseResultMap" type="com.liu.sc.model.User" >
-    <id column="uid" property="uid" jdbcType="CHAR" />
-    <result column="loginname" property="loginname" jdbcType="VARCHAR" />
-    <result column="loginpass" property="loginpass" jdbcType="VARCHAR" />
-    <result column="email" property="email" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="BIT" />
-    <result column="activationCode" property="activationcode" jdbcType="CHAR" />
-  </resultMap>
+<mapper namespace="com.liu.sc.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.liu.sc.model.User" >
+        <id column="uid" property="uid" jdbcType="CHAR" />
+        <result column="loginname" property="loginname" jdbcType="VARCHAR" />
+        <result column="loginpass" property="loginpass" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="BIT" />
+        <result column="activationCode" property="activationcode" jdbcType="CHAR" />
+    </resultMap>
 
-  <sql id="Base_Column_List" >
-    uid, loginname, loginpass, email, status, activationCode
-  </sql>
+    <sql id="Base_Column_List" >
+        uid, loginname, loginpass, email, status, activationCode
+    </sql>
 
-  <select id="find" parameterType="map" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"/>
-    from t_user
-    where 1=1
-  </select>
-
-
-  <select id="get" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select <include refid="Base_Column_List" />
-    from t_user
-    where uid = #{uid,jdbcType=CHAR}
-  </select>
+    <select id="find" parameterType="map" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from t_user
+        where 1=1
+    </select>
 
 
-  <insert id="insert" parameterType="com.liu.sc.model.User" >
-    insert into t_user
-    (uid, loginname, loginpass, email, status, activationCode)
-    values
-    (
-    #{uid,jdbcType=CHAR},
-    #{loginname,jdbcType=VARCHAR},
-    #{loginpass,jdbcType=VARCHAR},
-    #{email,jdbcType=VARCHAR},
-    #{status,jdbcType=BIT},
-    #{activationcode,jdbcType=CHAR}
-    )
-  </insert>
+    <select id="get" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select <include refid="Base_Column_List" />
+        from t_user
+        where uid = #{uid,jdbcType=CHAR}
+    </select>
 
-  <update id="update" parameterType="com.liu.sc.model.User" >
-    update t_user
-    <set >
-      <if test="loginname != null" >loginname = #{loginname,jdbcType=VARCHAR},</if>
-      <if test="loginpass != null" >loginpass = #{loginpass,jdbcType=VARCHAR},</if>
-      <if test="email != null" >email = #{email,jdbcType=VARCHAR},</if>
-      <if test="status != null" >status = #{status,jdbcType=BIT},</if>
-      <if test="activationcode != null" >activationCode = #{activationcode,jdbcType=CHAR},</if>
-    </set>
-    where uid = #{uid,jdbcType=CHAR}
-  </update>
 
-  <delete id="deleteById" parameterType="java.lang.String" >
-    delete from t_user
-    where uid = #{uid,jdbcType=CHAR}
-  </delete>
+    <insert id="insert" parameterType="com.liu.sc.model.User" >
+        insert into t_user
+        (uid, loginname, loginpass, email, status, activationCode)
+        values
+        (
+        #{uid,jdbcType=CHAR},
+        #{loginname,jdbcType=VARCHAR},
+        #{loginpass,jdbcType=VARCHAR},
+        #{email,jdbcType=VARCHAR},
+        #{status,jdbcType=BIT},
+        #{activationcode,jdbcType=CHAR}
+        )
+    </insert>
 
-  <delete id="delete" parameterType="java.lang.String">
-    delete from t_user
-    where uid in
-    <foreach collection="array" item="id" open="(" close=")" separator=",">
-      #{id}
-    </foreach>
-  </delete>
+    <update id="update" parameterType="com.liu.sc.model.User" >
+        update t_user
+        <set >
+            <if test="loginname != null" >loginname = #{loginname,jdbcType=VARCHAR},</if>
+            <if test="loginpass != null" >loginpass = #{loginpass,jdbcType=VARCHAR},</if>
+            <if test="email != null" >email = #{email,jdbcType=VARCHAR},</if>
+            <if test="status != null" >status = #{status,jdbcType=BIT},</if>
+            <if test="activationcode != null" >activationCode = #{activationcode,jdbcType=CHAR},</if>
+        </set>
+        where uid = #{uid,jdbcType=CHAR}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.String" >
+       delete from t_user
+       where uid = #{uid,jdbcType=CHAR}
+    </delete>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from t_user
+        where uid in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="ajaxLoginname" resultType="java.lang.Integer" parameterType="string">
+        SELECT count(1) FROM t_user
+        WHERE loginname = #{loginname, jdbcType=VARCHAR}
+    </select>
+
+    <select id="ajaxEmail" resultType="java.lang.Integer" parameterType="string">
+        SELECT count(1) FROM t_user
+        WHERE email = #{email, jdbcType=VARCHAR}
+    </select>
+
+
 
 
 </mapper>

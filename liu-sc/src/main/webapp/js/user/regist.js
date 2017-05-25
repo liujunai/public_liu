@@ -20,6 +20,27 @@ $(function () {
         eval(funName);
     });
 
+    //表单提交时进行校验
+    $("#registFrom").submit(function () {
+        var bool = true;
+        if (!validateLoginname()){
+            bool = false;
+        }
+        if (!validateLoginpass()){
+            bool = false;
+        }
+        if (!validateReloginpass()){
+            bool = false;
+        }
+        if (!validateEmail()){
+            bool = false;
+        }
+        if (!validateVerifyCode()){
+            bool = false;
+        }
+        return bool;
+    });
+
 });
 
 //登录名校验方法
@@ -39,6 +60,21 @@ function validateLoginname() {
         return false;
     }
     //3是否注册校验
+    $.ajax({
+        url:"/user/ajaxLoginname.action", //要请求的action
+        data:{loginname:value}, //给服务器的参数
+        type:"POST",
+        dataType:"json",
+        async:false, //是否异步请求 如果是true就不会等待服务器返回值,函数继续执行
+        chahe:false,
+        success:function (result) {
+            if (!result){
+                $("#" + id + "Error").text("用户名已被注册！");
+                showError($("#" + id + "Error"));
+                return false;
+            }
+        }
+    });
 
     return true;
 }
@@ -59,7 +95,6 @@ function validateLoginpass() {
         showError($("#" + id + "Error"));
         return false;
     }
-    //3是否注册校验
 
     return true;
 }
@@ -80,7 +115,6 @@ function validateReloginpass() {
         showError($("#" + id + "Error"));
         return false;
     }
-    //3是否注册校验
 
     return true;
 }
@@ -102,6 +136,21 @@ function validateEmail() {
         return false;
     }
     //3是否注册校验
+    $.ajax({
+        url:"/user/ajaxEmail.action", //要请求的action
+        data:{email:value}, //给服务器的参数
+        type:"POST",
+        dataType:"json",
+        async:false, //是否异步请求 如果是true就不会等待服务器返回值,函数继续执行
+        chahe:false,
+        success:function (result) {
+            if (!result){
+                $("#" + id + "Error").text("email已被注册！");
+                showError($("#" + id + "Error"));
+                return false;
+            }
+        }
+    });
 
     return true;
 }
@@ -117,12 +166,28 @@ function validateVerifyCode() {
         return false;
     }
     //2长度校验
-    if (value != $("#loginpass").val()){
-        $("#" + id + "Error").text("两次密码输入的不一致！");
+    if (value.length != 4){
+        $("#" + id + "Error").text("验证码错误！");
         showError($("#" + id + "Error"));
         return false;
     }
-    //3是否注册校验
+    //3是否正确校验
+    $.ajax({
+        url:"/user/ajaxVerifyCode.action", //要请求的action
+        data:{verifyCode:value}, //给服务器的参数
+        type:"POST",
+        dataType:"json",
+        async:false, //是否异步请求 如果是true就不会等待服务器返回值,函数继续执行
+        chahe:false,
+        success:function (result) {
+            if (!result){
+                $("#" + id + "Error").text("验证码错误！");
+                showError($("#" + id + "Error"));
+                return false;
+            }
+        }
+    });
+
 
     return true;
 }

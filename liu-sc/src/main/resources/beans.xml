@@ -18,7 +18,7 @@
 	<context:property-placeholder location="classpath:jdbc.properties"/>
 	
 	<!-- 2. 包扫描dao,service -->
-	<context:component-scan base-package="com.liu.sc.dao,com.liu.sc.service"/>
+	<context:component-scan base-package="com.liu.sc.dao,com.liu.sc.service,com.liu.sc.utils"/>
 	
 	<!-- 3. 数据源dataSource  C3P0 -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
@@ -53,6 +53,8 @@
 			<tx:method name="update*" propagation="REQUIRED"/>
 			<tx:method name="delete*" propagation="REQUIRED"/>
 			<tx:method name="save*" propagation="REQUIRED"/>
+
+            <tx:method name="ajax*" propagation="REQUIRED"/>
 			
 			<tx:method name="find*" read-only="true"/>
 			<tx:method name="get*" read-only="true"/>
