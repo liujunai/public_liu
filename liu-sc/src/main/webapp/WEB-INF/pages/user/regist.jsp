@@ -9,9 +9,11 @@
 <%@ include file="../base.jsp"%>
 <html>
 <head>
+
     <title>注册页面</title>
     <link rel="stylesheet" href="${path}/css/user/regist.css">
     <script type="text/javascript" src="${path}/js/user/regist.js"></script>
+
 </head>
 <body style="background-color: #cccccc">
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -36,28 +38,28 @@
     <form id="registFrom" action="/user/registered.action" method="post">
         <div class="form-group">
             <label for="loginname">用户名：</label>
-            <input type="text" class="form-control" id="loginname" placeholder="请输入您的用户名">
-            <label class="errorClass" id="loginnameError"></label>
+            <input type="text" class="form-control" name="loginname" id="loginname" value="${form.loginname}" placeholder="请输入您的用户名">
+            <label class="errorClass" id="loginnameError">${errors.loginname}</label>
         </div>
         <div class="form-group">
             <label for="loginpass">登录密码：</label>
-            <input type="password" class="form-control" id="loginpass" placeholder="请输入您的密码">
-            <label class="errorClass" id="loginpassError"></label>
+            <input type="password" class="form-control" name="loginpass" id="loginpass" placeholder="请输入您的密码">
+            <label class="errorClass" id="loginpassError">${errors.loginpass}</label>
         </div>
         <div class="form-group">
             <label for="reloginpass">确认密码：</label>
-            <input type="password" class="form-control" id="reloginpass" placeholder="请输入确认密码">
-            <label class="errorClass" id="reloginpassError"></label>
+            <input type="password" class="form-control" name="reloginpass" id="reloginpass" placeholder="请输入确认密码">
+            <label class="errorClass" id="reloginpassError">${errors.reloginpass}</label>
         </div>
         <div class="form-group">
             <label for="email">邮&nbsp;&nbsp;&nbsp;箱：</label>
-            <input type="text" class="form-control" id="email" placeholder="请输入您的Email">
-            <label class="errorClass" id="emailError"></label>
+            <input type="text" class="form-control" name="email" id="email" value="${form.email}" placeholder="请输入您的Email">
+            <label class="errorClass" id="emailError">${errors.email}</label>
         </div>
         <div class="form-group">
             <label for="verifyCode">验证码：</label>
-            <input type="text" class="form-control" id="verifyCode" placeholder="请输入验证码">
-            <label class="errorClass" id="verifyCodeError"></label>
+            <input type="text" class="form-control" name="verifyCode" id="verifyCode" value="${form.verifyCode}"  placeholder="请输入验证码">
+            <label class="errorClass" id="verifyCodeError">${errors.verifyCode}</label>
         </div>
         <div class="form-group text-center">
             <img id="imgverfiyCode" class="img-responsive center-block" src="/verfiyCode.action" alt="验证码">

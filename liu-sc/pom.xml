@@ -132,6 +132,12 @@
             <version>2.4.2</version>
         </dependency>
 
+        <!-- java发邮件 -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4</version>
+        </dependency>
 
         <!-- 防止和tomcat中的jar冲突 -->
         <dependency>
