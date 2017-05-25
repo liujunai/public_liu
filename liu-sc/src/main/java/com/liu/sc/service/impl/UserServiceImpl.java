@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
 
         //登录邮件服务器,得到session
         String host = prop.getProperty("host");
-        String name = prop.getProperty("name");
+        String name = prop.getProperty("username");
         String pass = prop.getProperty("pass");
         Session session = EmailUtils.createSession(host,name, pass);
 
