@@ -23,15 +23,28 @@
         </div>
         <div class="navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/homepage.action"><span class="glyphicon glyphicon-home"></span>首页</a></li>
-                <li class="active"><a href="/regist.action">注册页面</a></li>
-                <li><a href=""></a></li>
-                <li><a href=""></a></li>
-                <li><a href=""></a></li>
+                <c:choose>
+                    <c:when test="${empty sessionScope.sessionUser}">
+                        <li><a href="/homepage.action"><span class="glyphicon glyphicon-home"></span>首页</a></li>
+                        <li><a href="/login.action">登录</a></li>
+                        <li class="active"><a href="/regist.action">注册</a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span>我的购物车</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-list"></span>我的订单</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-sort"></span>修改密码</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-remove-sign"></span>退&nbsp;&nbsp;出</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-send"></span>联系我们</a></li>
+                    </c:otherwise>
+                </c:choose>
+
             </ul>
         </div>
+
     </div>
+
 </nav>
+
 
 <div id="registered" class="container" style="background-color: #ffffff;padding: 100px">
     <h3 class="page-header">新用户注册</h3>

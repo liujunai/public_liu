@@ -80,7 +80,28 @@
         WHERE email = #{email, jdbcType=VARCHAR}
     </select>
 
+    <select id="findByLoginnameAndLoginpass" resultMap="BaseResultMap" parameterType="com.liu.sc.model.User">
+        select <include refid="Base_Column_List"/>
+        from t_user
+        where loginname = #{loginname, jdbcType=VARCHAR}
+        and   loginpass = #{loginpass, jdbcType=VARCHAR}
+    </select>
 
+
+    <select id="findByUidAndPass" resultMap="java.lang.Integer" parameterType="java.util.Map">
+        SELECT count(*)
+        FROM t_user
+        WHERE uid = #{uid,jdbcType=CHAR}
+        AND  loginpass = #{loginpass, jabcType=VARCHAR}
+    </select>
+
+    <update id="updatePass" parameterType="java.util.Map">
+        UPDATE t_user
+        <set >
+            <if test="loginpass != null">loginpass = #{newloginpass,jdbcType=VARCHAR},</if>
+        </set>
+        where uid = #{uid,jdbcType=CHAR}
+    </update>
 
 
 </mapper>

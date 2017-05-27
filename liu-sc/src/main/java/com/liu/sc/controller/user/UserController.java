@@ -1,5 +1,6 @@
 package com.liu.sc.controller.user;
 
+import com.liu.sc.exception.UserException;
 import com.liu.sc.model.User;
 import com.liu.sc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,10 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,12 +54,110 @@ public class UserController {
        resp.getWriter().print(b);
     }
 
+    //修改密码
+    @RequestMapping("/user/pwds.action")
+    public String pwds(User fuser,HttpServletRequest req)
+    {
+        //从session中获取uid
+        User user = (User) req.getSession().getAttribute("sessionUser");
+        if (user == null){
+            req.setAttribute("msg","您还没有登录");
+            return "/user/login.jsp";
+        }
+        Map<String,String> userBean = new HashMap<String, String>();
+        userBean.put("uid",user.getUid());
+        userBean.put("newloginpass",fuser.getNewloginpass());
+        userBean.put("loginpass",fuser.getLoginpass());
+        try
+        {
+            userService.updatePass(userBean);
+            req.setAttribute("msg","修改密码成功");
+            req.setAttribute("code","success");
+            return "/msg.jsp";
+        } catch (UserException e)
+        {
+            req.setAttribute("msg",e.getMessage());//保存错误信息到request
+            req.setAttribute("form",fuser);
+            return "/user/pwd.jsp";
+        }
+    }
 
 
+    //登录页面验证
+    @RequestMapping("/user/logins.action")
+    public String logins(User fuser,HttpServletRequest req,HttpServletResponse resp){
+        Map<String,String> errors = validateLogin(fuser,req.getSession());
+        if (errors.size() >0){
+            req.setAttribute("errors",errors);
+            req.setAttribute("form",fuser);
+            return "/user/login.jsp";
+        }
+        User user = userService.getlogin(fuser);
+        //判断用户是否存在
+        if (user == null){
+            req.setAttribute("login","用户名或密码错误!");
+            req.setAttribute("form",fuser);
+            return "/user/login.jsp";
+        }else {
+            //判断用户是否激活
+            if (!user.getStatus()){
+                req.setAttribute("login","您还没有激活账号");
+                req.setAttribute("form",fuser);
+                return "/user/login.jsp";
+            }else {
+                //保存用户到session中
+                req.getSession().setAttribute("sessionUser",user);
+                String loginname = user.getLoginname();
+                try
+                {
+                    loginname = URLEncoder.encode(loginname,"utf-8");
+                    Cookie cookie = new Cookie("loginname",loginname);
+                    cookie.setMaxAge(60 * 60 * 24 * 10);
+                    resp.addCookie(cookie);
+                } catch (UnsupportedEncodingException e)
+                {
+                    throw new RuntimeException(e);
+                }
+                return "redirect:/homepage.action";
+            }
+        }
+
+
+
+    }
+
+
+    //对登录表单校验
+    private Map<String,String> validateLogin(User user,HttpSession session){
+        Map<String,String> errors = new HashMap<String, String>();
+
+        String loginname = user.getLoginname();
+        if (loginname == null || loginname.trim().isEmpty()){
+            errors.put("loginname","用户名不能为空!");
+        }
+
+        String loginpass = user.getLoginpass();
+        if (loginpass == null || loginpass.trim().isEmpty()){
+            errors.put("loginpass","密码不能为空");
+        }
+
+        String verifyCode = user.getVerifyCode();
+        String vCode = (String) session.getAttribute("vCode");
+        if (verifyCode == null || verifyCode.trim().isEmpty()){
+            errors.put("verifyCode","验证码不能为空!");
+        }else if (!verifyCode.equalsIgnoreCase(vCode)){
+            errors.put("verifyCode","验证码错误!");
+        }
+
+        return errors;
+    }
+
+
+
+
+    //注册用户验证
     @RequestMapping("/user/registered.action")
     public String registered(User user,HttpServletRequest req){
-
-
 
         //进行校验
         Map<String,String> errors = validateRegist(user,req.getSession());
@@ -80,7 +182,7 @@ public class UserController {
         String loginname = user.getLoginname();
         if (loginname == null || loginname.trim().isEmpty()){
             errors.put("loginname","用户名不能为空！");
-        } else if (loginname.length() < 3 || loginname.length() > 13){
+        } else if (loginname.length() < 4 || loginname.length() > 13){
             errors.put("loginname","用户名长度必须在4~12之间！");
         }else if (!userService.ajaxLoginname(loginname)){
             errors.put("loginname","用户名已被注册!");

@@ -16,9 +16,21 @@ public class HomeController {
     }
 
     //注册页面
-    @RequestMapping("regist.action")
+    @RequestMapping("/regist.action")
     public String regist(){
         return "/user/regist.jsp";
+    }
+
+    //登录页面
+    @RequestMapping("/login.action")
+    public String login(){
+        return "/user/login.jsp";
+    }
+
+    //修改密码
+    @RequestMapping("/user/pwd.action")
+    public String pwd(){
+        return "/user/pwd.jsp";
     }
 
 }

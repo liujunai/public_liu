@@ -1,6 +1,7 @@
 package com.liu.sc.service.impl;
 
 import com.liu.sc.dao.UserDao;
+import com.liu.sc.exception.UserException;
 import com.liu.sc.model.User;
 import com.liu.sc.service.UserService;
 import com.liu.sc.utils.Email;
@@ -12,6 +13,7 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
 
@@ -19,7 +21,7 @@ import java.util.UUID;
  * Created by titanic on 17-5-24.
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements  UserService {
 
     @Autowired
     UserDao userDao;
@@ -78,5 +80,22 @@ public class UserServiceImpl implements UserService {
         {
             throw new RuntimeException(e);
         }
+    }
+
+    public User getlogin(User fuser)
+    {
+        return userDao.getlogin(fuser);
+    }
+
+
+    public void updatePass(Map userBean) throws UserException
+    {
+        //校验老密码是否正确,不正确抛出异常
+        boolean bool = userDao.findUser(userBean);
+        if (!bool){
+            throw new UserException("老密码错误");
+        }
+        //修改密码
+        userDao.updatePass(userBean);
     }
 }
